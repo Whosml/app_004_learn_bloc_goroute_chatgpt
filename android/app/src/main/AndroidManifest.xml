@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="app_004_learn_bloc_goroute_chatgpt"
+        android:label="L004 bloc goroute chatgpt"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
