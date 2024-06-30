@@ -1,4 +1,5 @@
 import 'package:app_004_learn_bloc_goroute_chatgpt/bloc/el_bloc.dart';
+import 'package:app_004_learn_bloc_goroute_chatgpt/bloc/el_state.dart';
 import 'package:app_004_learn_bloc_goroute_chatgpt/pages/page1.dart';
 import 'package:app_004_learn_bloc_goroute_chatgpt/pages/page1_1.dart';
 import 'package:app_004_learn_bloc_goroute_chatgpt/pages/page1_2.dart';
@@ -15,6 +16,16 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => NavigationBloc(),
+      child: MyAppRouter(),
+    );
+  }
+}
+
+class MyAppRouter extends StatelessWidget {
   final GoRouter _router = GoRouter(
     initialLocation: '/',
     routes: [
@@ -26,16 +37,20 @@ class MyApp extends StatelessWidget {
       GoRoute(path: '/page2_1', builder: (context, state) => Page2_1()),
       GoRoute(path: '/page3', builder: (context, state) => Page3()),
     ],
+    redirect: (context, state) {
+      final bloc = context.read<NavigationBloc>();
+      if (bloc.state is PageLoaded) {
+        final page = (bloc.state as PageLoaded).page;
+        return page;
+      }
+      return null;
+    },
   );
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => NavigationBloc(),
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        routerConfig: _router,
-      ),
+    return MaterialApp.router(
+      routerConfig: _router,
     );
   }
 }

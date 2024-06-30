@@ -1,14 +1,11 @@
+import 'package:app_004_learn_bloc_goroute_chatgpt/bloc/el_event.dart';
+import 'package:app_004_learn_bloc_goroute_chatgpt/bloc/el_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'el_event.dart';
-import 'el_state.dart';
 
 class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
-  NavigationBloc() : super(NavigationInitial());
-
-  @override
-  Stream<NavigationState> mapEventToState(NavigationEvent event) async* {
-    if (event is NavigateToPage) {
-      yield PageLoaded(event.page);
-    }
+  NavigationBloc() : super(NavigationInitial()) {
+    on<NavigateToPage>((event, emit) {
+      emit(PageLoaded(event.page));
+    });
   }
 }
